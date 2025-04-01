@@ -38,6 +38,8 @@ import TimeIcon from "./time.svg";
 import CopyIcon from "./copy.svg";
 import ChevronLeftIcon from "./chevron-left.svg";
 import UserCircleIcon from "./user-circle.svg";
+import MultipleUserCircleIcon from "./multiple-user-circle.svg";
+import IconInfo from "./icon_info.svg";
 import TaskIcon from "./task-icon.svg";
 import ListIcon from "./list.svg";
 import TableIcon from "./table.svg";
@@ -67,6 +69,7 @@ export {
   CheckCircleIcon,
   AlertIcon,
   InfoIcon,
+  IconInfo,
   ErrorIcon,
   ArrowUpIcon,
   FolderIcon,
@@ -94,6 +97,7 @@ export {
   CopyIcon,
   ChevronLeftIcon,
   UserCircleIcon,
+  MultipleUserCircleIcon,
   ListIcon,
   TableIcon,
   PageIcon,

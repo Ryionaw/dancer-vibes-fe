@@ -1,23 +1,17 @@
 "use client";
-import React, { useEffect, useRef, useState,useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
-  GridIcon,
-  HorizontaLDots,
-  ListIcon,
-  PageIcon,
   PieChartIcon,
   PlugInIcon,
-  TableIcon,
-  UserCircleIcon,
+  MultipleUserCircleIcon,
+  IconInfo,
 } from "../icons/index";
-import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -28,38 +22,9 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
-  },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
-
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
+    icon: <MultipleUserCircleIcon />,
+    name: "Members",
+    path: "/members",
   },
 ];
 
@@ -234,7 +199,7 @@ const AppSidebar: React.FC = () => {
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // const isActive = (path: string) => path === pathname;
-   const isActive = useCallback((path: string) => path === pathname, [pathname]);
+  const isActive = useCallback((path: string) => path === pathname, [pathname]);
 
   useEffect(() => {
     // Check if the current path matches any submenu item
@@ -260,7 +225,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname,isActive]);
+  }, [pathname, isActive]);
 
   useEffect(() => {
     // Set the height of the submenu items when the submenu is opened
@@ -290,7 +255,7 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 left-0  h-screen transition-all duration-300 ease-in-out    
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -303,12 +268,13 @@ const AppSidebar: React.FC = () => {
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Logo */}
       <div
-        className={`py-8 flex  ${
-          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+        className={`py-8 px-4 flex flex-col justify-start h-4/12 bg-white rounded-br-[10%] ${
+          !isExpanded && !isHovered ? "lg:justify-center" : "justify-center"
         }`}
       >
-        <Link href="/">
+        <Link href="/" className="flex justify-center mb-6">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <Image
@@ -320,7 +286,7 @@ const AppSidebar: React.FC = () => {
               />
               <Image
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src="/images/logo/logo.svg"
                 alt="Logo"
                 width={150}
                 height={40}
@@ -335,47 +301,53 @@ const AppSidebar: React.FC = () => {
             />
           )}
         </Link>
+        <div className="mt-5">
+          <p className="text-custom-gray text-theme-xs font-normal mb-4">
+            MEMBERS
+          </p>
+          {renderMenuItems(navItems, "main")}
+        </div>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-        <nav className="mb-6">
-          <div className="flex flex-col gap-4">
-            <div>
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
-                ) : (
-                  <HorizontaLDots />
-                )}
-              </h2>
-              {renderMenuItems(navItems, "main")}
-            </div>
+      {/* End Logo */}
+      {/* Ads */}
+      <div className="flex flex-col duration-300 ease-linear no-scrollbar h-8/12 mt-8 bg-white rounded-tr-[10%] p-4 relative">
+        <button className="w-fit rounded-xl px-3 py-1 text-white bg-custom-orange hover:bg-custom-orange-light transition-colors font-normal text-theme-sm">
+          Free Trial
+        </button>
+        <p className="text-custom-gray text-theme-sm my-6">
+          Offer expiring April 2025
+          <Image
+            src="/images/shape/dance.svg"
+            alt="Logo"
+            width={90}
+            height={180}
+            className="absolute -top-6 -right-0.5"
+          />
+        </p>
+        <p className="text-theme-sm font-normal">
+          3 months <span className="text-custom-orange">FREE</span> + 2025{" "}
+          <span className="text-custom-orange">50% OFF</span> <br /> + Enjoy
+          Early user’s privileges
+        </p>
+        <p className="text-theme-sm my-6 text-color-custom-dark-blue">
+          Subscribe to unlock all features
+        </p>
+        <button className="text-white bg-custom-dark-blue px-2 py-5 rounded-3xl text-theme-sm font-normal hover:bg-custom-dark-blue-light transition-colors">
+          Unlock Features
+        </button>
 
-            <div className="">
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  "Others"
-                ) : (
-                  <HorizontaLDots />
-                )}
-              </h2>
-              {renderMenuItems(othersItems, "others")}
-            </div>
-          </div>
-        </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
+        <div className="absolute bottom-4 left-0 w-full px-4">
+          <Link
+            href="/"
+            className="text-custom-dark-blue text-theme-sm font-normal hover:text-custom-orange transition-colors"
+          >
+            <IconInfo />
+            <span className="ml-auto font-semibold">Need Help? {">"}</span>
+            <p className="mt-2">Chat with our tech support</p>
+          </Link>
+        </div>
       </div>
+      {/* Ads */}
     </aside>
   );
 };
