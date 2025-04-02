@@ -9,7 +9,7 @@ import {
 
 import Badge from "../ui/badge/Badge";
 import Image from "next/image";
-
+import Pagination from "./Pagination";
 interface Order {
   id: number;
   user: {
@@ -111,7 +111,26 @@ const tableData: Order[] = [
   },
 ];
 
-export default function MemberTable() {
+interface MemberTableProps {
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  itemsPerPage: number;
+  setItemsPerPage: (items: number) => void;
+}
+
+export default function MemberTable({
+  currentPage,
+  setCurrentPage,
+  itemsPerPage,
+  setItemsPerPage,
+}: MemberTableProps) {
+  const totalItems = tableData.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+  const currentData = tableData.slice(startIndex, endIndex);
+
   return (
     <div className="w-full rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
       <div className="relative w-full overflow-x-auto">
@@ -151,7 +170,7 @@ export default function MemberTable() {
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {tableData.map((order) => (
+            {currentData.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="px-5 py-4 sm:px-6 text-start">
                   <div className="flex items-center gap-3">
@@ -215,6 +234,37 @@ export default function MemberTable() {
             ))}
           </TableBody>
         </Table>
+      </div>
+      <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3 dark:border-white/[0.05]">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            Lines per page:
+          </span>
+          <select
+            value={itemsPerPage}
+            onChange={(e) => {
+              setItemsPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="rounded-md border border-gray-200 bg-white px-2 py-1 text-sm dark:border-gray-700 dark:bg-gray-800"
+          >
+            {[5, 10, 20, 50].map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            Showing {startIndex + 1}-{endIndex} of {totalItems}
+          </span>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </div>
       </div>
     </div>
   );

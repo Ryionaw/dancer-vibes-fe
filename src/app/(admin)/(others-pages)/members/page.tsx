@@ -1,17 +1,14 @@
-import { Metadata } from "next";
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import MemberTable from "@/components/tables/MemberTable";
 import { IoFilter } from "react-icons/io5";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import { FaPlus } from "react-icons/fa";
 
-export const metadata: Metadata = {
-  title: "Next.js Profile | TailAdmin - Next.js Dashboard Template",
-  description:
-    "This is Next.js Profile page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
-};
-
 export default function Profile() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   return (
     <div>
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
@@ -59,7 +56,12 @@ export default function Profile() {
           </div>
         </div>
 
-        <MemberTable />
+        <MemberTable
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+        />
       </div>
     </div>
   );
