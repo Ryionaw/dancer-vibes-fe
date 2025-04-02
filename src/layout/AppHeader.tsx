@@ -126,7 +126,7 @@ const AppHeader: React.FC = () => {
             </svg>
           </button>
 
-          <div className="hidden lg:block bg-white rounded-lg p-2 shadow-sm">
+          <div className="hidden lg:block bg-white rounded-lg py-2 px-8 shadow-sm">
             <ul className="flex items-center gap-8 ">
               <li>
                 <Link
